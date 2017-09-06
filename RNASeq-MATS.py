@@ -42,7 +42,6 @@ insertLength=[];
 sigma = [];
 insertLength2=[];
 sigma2 = [];
-anchorLength=1;
 tophatAnchor=6; ## default
 c=0.0001; 
 bamFile=0; ## by default, no bam file
@@ -236,7 +235,7 @@ else: ## bam file was provided
 
 ## getting readLength and junctionLength here
 #
-junctionLength = 2*(readLength-anchorLength);
+junctionLength = 2*(readLength-tophatAnchor);
 
 ### assigning default insertLength and sigma
 
