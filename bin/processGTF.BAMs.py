@@ -140,10 +140,20 @@ for line in iFile:  ## for each line
         elif dName.upper() == 'GENE_NAME':  ## it is a description for gene_name
             gName = [dName, dVal];
 
-    if gID[0].upper() != 'GENE_ID' or txID[0].upper() != 'TRANSCRIPT_ID':  ## wrong one..
-        logging.debug("This line does not have correct description for gID or txID: %s, %s" % (gID, txID));
+    if gID[0].upper() != 'GENE_ID' and txID[0].upper() != 'TRANSCRIPT_ID':  ## wrong one..
+        logging.debug("This line does not have correct description for gID and txID: %s, %s" % (gID, txID));
         logging.debug("Incorrect description: %s" % ele);
         continue;  ## process next line
+
+    if gID[0].upper() != 'GENE_ID' and txID[0].upper() == 'TRANSCRIPT_ID':  ## wrong GENE_ID..
+        logging.debug("Incorrect description, no GENE_ID, copying from TRANSCRIPT_ID: %s" % ele);
+        gID = txID[:];
+        gID[0] = 'GENE_ID';
+
+    if txID[0].upper() != 'TRANSCRIPT_ID' and gID[0].upper() == 'GENE_ID':  ## wrong TRANSCRIPT_ID..
+        logging.debug("Incorrect description, no TRANSCRIPT_ID, copying from GENE_ID: %s" % ele);
+        txID = gID[:];
+        txID[0] = 'TRANSCRIPT_ID';
 
     for i in group:  ## for each possible group
         if i in geneGroup:  ## this group already exist
